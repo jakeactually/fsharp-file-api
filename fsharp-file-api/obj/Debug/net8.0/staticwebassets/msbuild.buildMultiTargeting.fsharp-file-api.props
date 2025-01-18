@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\fsharp-file-api.props" />
+</Project>
