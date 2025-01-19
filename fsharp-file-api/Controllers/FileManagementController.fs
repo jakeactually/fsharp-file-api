@@ -47,10 +47,10 @@ type FileManagementController (logger : ILogger<FileManagementController>) =
             upcast __.NotFound({| msg = "File or directory not found" |})
 
     [<HttpPost("move")>]
-    member __.Move(srcDir: string, dstDir: string, files: string) : ObjectResult =
+    member __.Move(srcDir: string, dstDir: string, files: string array) : ObjectResult =
         let mutable result: ObjectResult = __.Ok({| msg = "Moved successfully" |})
 
-        for file in files.Split(",") do
+        for file in files do
             let srcPath = $"{Util.root}{srcDir}{file}"
             let dstPath = $"{Util.root}{dstDir}{file}"
             if File.Exists(srcPath) || Directory.Exists(srcPath) then
@@ -60,10 +60,10 @@ type FileManagementController (logger : ILogger<FileManagementController>) =
         result
 
     [<HttpPost("delete")>]
-    member __.Delete(dir: string, files: string) : ObjectResult =
+    member __.Delete(dir: string, files: string array) : ObjectResult =
         let mutable result: ObjectResult = __.Ok({| msg = "Deleted successfully" |})
 
-        for file in files.Split(",") do
+        for file in files do
             let path = $"{Util.root}{dir}{file}"
             if Directory.Exists(path) then
                 Directory.Delete(path, true)
